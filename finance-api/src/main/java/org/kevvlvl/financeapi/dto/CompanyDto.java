@@ -1,13 +1,11 @@
 package org.kevvlvl.financeapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.micronaut.core.annotation.Introspected;
 
+@Introspected
 public class CompanyDto {
 
-    @JsonCreator
-    public CompanyDto(@JsonProperty("companyName") String companyName,
-                          @JsonProperty("industry") String industry) {
+    public CompanyDto(String companyName, String industry) {
         this.companyName = companyName;
         this.industry = industry;
     }
