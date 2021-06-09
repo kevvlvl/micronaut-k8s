@@ -63,4 +63,10 @@ As we can see, we dropped start-up time for a simple app from 718ms to 89ms!
 
 Deploying on k8s/minikube
 
-TBD
+_Note_: Ensure you have docker installed and setup before proceeding
+
+1. ```minikube start```
+2. ```eval $(minikube docker-env)```
+3. cd into "finance-api" subfolder and then: ```./gradlew dockerBuildNative```
+4. confirm image creation ```docker image ls```
+5. cd into "k8s" subfolder and then:
