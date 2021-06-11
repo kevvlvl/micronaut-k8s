@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jaeger
+  name: jaeger
+  namespace: ctrl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jaeger
+  template:
+    metadata:
+      labels:
+        app: jaeger
+    spec:
+      containers:
+        - image: jaegertracing/all-in-one:latest
+          name: all-in-one
+          ports:
+            - containerPort: 6831
+              name: p1
+            - containerPort: 6832
+              name: p2
+            - containerPort: 5778
+              name: p3
+            - containerPort: 5775
+              name: p4
+            - containerPort: 16686
+              name: p5
+            - containerPort: 14268
+              name: p6
+            - containerPort: 9411
+              name: p7

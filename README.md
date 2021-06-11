@@ -9,7 +9,7 @@ The service "finance-api" is a simple Micronaut-based microservice that exposes 
 [{"companyName":"Altavista","industry":"IT"},{"companyName":"PillPusher","industry":"Health"},{"companyName":"BrandTop","industry":"Marketing"}]
 ```
 
-## Build Phase
+## Build
 
 We'll do two builds: one as a stand-alone JAR, and one as a GraalVM application
 
@@ -20,7 +20,7 @@ We'll do two builds: one as a stand-alone JAR, and one as a GraalVM application
 
 ### GraalVM application
 
-_Note_: Ensure you have docker installed and setup before proceeding
+_Note_: Ensure you have docker before proceeding
 
 Build a GraalVM Native image containerised in Docker
 
@@ -59,14 +59,31 @@ Running the Docker native image:
 
 As we can see, we dropped start-up time for a simple app from 718ms to 89ms!
 
-## Deploy phase
+## Deploy
 
 Deploying on k8s/minikube
 
-_Note_: Ensure you have docker installed and setup before proceeding
+_Note_: Ensure you have minikube setup
 
 1. ```minikube start```
-2. ```eval $(minikube docker-env)```
-3. cd into "finance-api" subfolder and then: ```./gradlew dockerBuildNative```
-4. confirm image creation ```docker image ls```
-5. cd into "k8s" subfolder and then:
+1. ```eval $(minikube docker-env)```
+
+### Deploy the app   
+
+1. cd into "finance-api" subfolder and then: ```./gradlew dockerBuildNative```
+1. confirm image creation ```docker image ls```
+1. cd into "k8s" subfolder
+1. Create the dev namespace ```kubectl create -f dev-ns.json```
+1. Create the api deployment ```kubectl create -f finance-api.deploy.yml```
+1. Expose the api as a NodePort ```kubectl create -f finance-api.svc.yml```
+1. List all minikube services: ```minikube service list```
+1. Curl the url to test the endpoint. In my case: ```curl 192.168.99.103:30516/company/list```
+
+### Deploy Jaeger
+
+1. Create the ctrl namespace ```kubectl create -f control-ns.json```
+1. Create the jaeger deployment ```kubectl create -f jaeger-deploy.yml```
+1. Create the jaeger deployment ```kubectl create -f jaeger-svc.yml```
+1. List all minikube services: ```minikube service list```
+1. Browse the Jaeger URL. In my case: ```http://192.168.99.103:32315```
+

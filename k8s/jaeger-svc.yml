@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jaeger
+  name: jaeger-svc
+  namespace: ctrl
+spec:
+  selector:
+    app: jaeger
+  ports:
+    - name: zipkin-thriftcompact
+      port: 6831
+      protocol: UDP
+      targetPort: 6831
+    - name: zipkin-thriftbinary
+      port: 6832
+      protocol: UDP
+      targetPort: 6832
+    - name: serve-configs
+      port: 5778
+      protocol: UDP
+      targetPort: 5778
+    - name: zipkin-thrift1
+      port: 5775
+      protocol: UDP
+      targetPort: 5775
+    - name: jaeger-thriftdirect
+      port: 14268
+      protocol: UDP
+      targetPort: 14268
+    - name: zipkin-compatibleport
+      port: 9411
+      protocol: UDP
+      targetPort: 9411
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jaeger
+  name: jaeger-console-svc
+  namespace: ctrl
+spec:
+  type: NodePort
+  selector:
+    app: jaeger
+  ports:
+    - name: frontend-console
+      port: 16686
+      protocol: TCP
+      targetPort: 16686
