@@ -3,6 +3,7 @@ package org.kevvlvl.financeapi.controller;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.tracing.annotation.ContinueSpan;
 import org.kevvlvl.financeapi.dto.CompanyDto;
 import org.kevvlvl.financeapi.service.CompanyService;
 
@@ -20,6 +21,7 @@ public class CompanyController {
     }
 
     @Get(value = "/list", produces = MediaType.APPLICATION_JSON)
+    @ContinueSpan
     public List<CompanyDto> getCompanies() {
         return this.companyService.getCompanies();
     }
