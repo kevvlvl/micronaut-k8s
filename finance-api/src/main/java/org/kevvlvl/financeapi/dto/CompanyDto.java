@@ -20,4 +20,12 @@ public class CompanyDto {
     public String getIndustry() {
         return industry;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyDto{" +
+                "companyName='" + companyName + '\'' +
+                ", industry='" + industry + '\'' +
+                '}';
+    }
 }

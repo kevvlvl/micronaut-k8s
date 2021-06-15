@@ -35,29 +35,29 @@ First, we need to deploy Jaeger for distributed tracing. It will be deployed in 
 1. List all minikube services: ```minikube service list```
 1. Browse the Jaeger URL. In my case: ```http://192.168.99.103:32315```
 
-### Deploy the JAR using the OpenJDK image
+### Deploy the audit-api using the OpenJDK image
+
+1. From the audit-api dir: ```./gradlew build```
+1. From the audit-api/build/libs folder: ```docker image build -f ../../../k8s/audit-api.Dockerfile  -t audit-api-openjdk:1.0 .```
+1. From the k8s dir: ```kubectl apply -f audit-api-deploy.yml```, ```kubectl apply -f audit-api-svc.yml```
+
+### Deploy the finance-api JAR using the OpenJDK image
 
 1. From the finance-api dir: ```./gradlew build```
 1. From the finance-api/build/libs folder: ```docker image build -f ../../../k8s/finance-api.Dockerfile  -t finance-api-openjdk:1.0 .```
 1. From the k8s dir: ```kubectl apply -f finance-api-deploy.yml```, ```kubectl apply -f finance-api-svc.yml```
 1. Then, ```minikube service list``` to find the URL. In my case: ```curl http://192.168.99.103:32370/company/list```
-1. Open Jaeger (find its url ), and you will find the traces for each call
+1. Open Jaeger (find its url ), and you will find the traces for each call, to the finance API and then to the audit API
 
 ### Deploy the JAR as a GraalVM native image
 
-_Note_: Ensure you have docker before proceeding
-
 Build a GraalVM Native image containerised in Docker
 
-1. cd into "finance-api" subfolder and then: ```./gradlew dockerBuildNative```
-1. confirm image creation ```docker image ls```
-1. cd into "k8s" subfolder
-1. Create the dev namespace ```kubectl create -f dev-ns.json```
-1. Create the api deployment ```kubectl create -f finance-api.deploy.yml```
-1. Expose the api as a NodePort ```kubectl create -f finance-api.svc.yml```
-1. List all minikube services: ```minikube service list```
-1. Curl the url to test the endpoint. In my case: ```curl 192.168.99.103:30516/company/list```
-1. Open Jaeger (find its url ), and you will find the traces for each call
+The only step to be performed here is to use gradle to build a GraalVM native image using this command:
+
+```./gradlew dockerBuildNative```
+
+The result is a docker image (```docker image ls```) which we can then refer in a k8s deployment manifest, or run using docker run.
 
 ## Benchmark JAR vs GraalVM image
 

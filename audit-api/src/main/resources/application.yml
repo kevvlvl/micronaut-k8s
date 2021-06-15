@@ -1,7 +1,6 @@
 micronaut:
   application:
-    name: financeApi
-    audit-api-endpoint: http://audit-api-svc:8080/audit
+    name: auditApi
 tracing:
   jaeger:
     enabled: true

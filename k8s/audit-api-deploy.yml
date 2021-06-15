@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: finance-api-native-deploy
+  name: audit-api-deploy
   namespace: dev
   labels:
-    app: finance-api-native
+    app: audit-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: finance-api-native
+      app: audit-api
   template:
     metadata:
       labels:
-        app: finance-api-native
+        app: audit-api
     spec:
       containers:
-      - name: finance-api-native
-        image: finance-api:latest
+      - name: audit-api
+        image: audit-api-openjdk:1.0
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
